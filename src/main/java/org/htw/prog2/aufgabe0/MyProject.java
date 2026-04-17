@@ -22,7 +22,33 @@ public class MyProject {
      */
     public static double[] calculateBabylonianRoot(double value, double initial, double maxerror) {
         // TODO: Implementieren.
-        return new double[] {initial};
+        // Schritt 1: Eine Liste für die Iterationen erstellen
+        java.util.LinkedList<Double> iterationen = new java.util.LinkedList<>();
+        // Schritt 2: Den Startwert in die Liste einfügen
+        iterationen.add(initial);
+        // Schritt 3: Eine Variable für die aktuelle Näherung (beginnt mit initial)
+        double aktuell = initial;
+        // Schritt 4: Schleife: wir rechnen, bis der Fehler klein genug is (while-Schleife, die wir bei Bedarf abbrechen)
+        while(true) {
+            // Fehler berechnen: (value - X2) / (2 * X)
+            double fehler = (value - (aktuell * aktuell)) / (2 * aktuell);
+            // Neue Näherung: X = X + Fehler
+            double neu = aktuell + fehler;
+            // Neue Näherung in die Liste einfügen
+            iterationen.add(neu);
+            if (Math.abs(fehler) <= maxerror){
+                break; // Genauigkeit erreicht: Schleife beenden. Wenn |Fehler| <= maxerror, dann Schleife abbrechen
+            }
+            aktuell = neu;
+        }
+
+        // Schritt 6: Liste in double[] umwandeln und zurückgeben
+        double[] ergebnis = new double[iterationen.size()];
+        for (int i=0; i < iterationen.size(); i++) {
+            ergebnis[i] = iterationen.get(i);
+
+        }
+        return ergebnis;
     }
 
     public static void plotData(double[] values) {
@@ -34,4 +60,8 @@ public class MyProject {
     public static void main(String[] args) {
         plotData(calculateBabylonianRoot(74821, 5, 0.1));
     }
+
+
 }
+
+
